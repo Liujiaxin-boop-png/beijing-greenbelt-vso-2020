@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+*.log
+local_runtime.json
+private/
+data/
+outputs/
+*.pdf
+*.docx
+*.tif
+*.zip
+*.gdb/
+

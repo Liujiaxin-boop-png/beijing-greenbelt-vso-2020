@@ -1,2 +1,29 @@
-# beijing-greenbelt-vso-2020
-2020 Beijing greenbelt ecological resilience: vulnerability, sensitivity and self-organization; reproducible analysis code.
+# 北京二道绿隔及周边地区 2020 年生态韧性评价
+
+本仓库保存 2026 年 11 月 6 日确认的开题报告所对应的计算代码。
+研究采用脆弱性—敏感性—自组织框架，每个维度两项指标：生境质量、年度夜间灯光、聚集度、最小累积阻力、源汇平均距离和生态空间相对面积。
+
+## 执行状态
+
+正在执行。现阶段已冻结研究方案，核验并准备原始数据，建立原生软件计算环境。
+尚未生成或声称完成新的六指标综合评价结果。旧仓库中的抵抗力—恢复力—适应力结果不属于本次分析。
+
+## 方法与目录
+
+- 2020 年；1 km 正方形格网；500 m 格网对照。
+- 林灌、草地、水体湿地分别评价；同类生境的六指标共同有效范围内进行极差标准化、熵权和线性聚合。
+- 原生 InVEST Habitat Quality、FRAGSTATS CLUMPY、ArcGIS Cost Distance 和 Euclidean Distance。
+- 对照土地覆盖产品、源地与阻力参数、格网尺度、去项和重新估权；同期 Landsat 地表温度用于灰绿配置的热环境补充检查。
+- 原始数据、过程文件、结果文件、图件和本仓库分别存放。大体积数据、期刊全文、个人账户信息不上传仓库。
+
+脚本在 `src/`。完整执行入口、参数表、输入清单和核验结果随实际计算陆续加入。
+计算环境和所有参数均需读取实际运行记录，不能把未运行的步骤视为已经完成。
+
+## 主要方法来源
+
+- Feng et al. (2024), *Sustainable Cities and Society*, 105933. DOI: 10.1016/j.scs.2024.105933.
+- Fan and Wei (2025), *Ecological Indicators*, 112980. DOI: 10.1016/j.ecolind.2024.112980.
+- Wang, Blanchet and Koper (2014), *Methods in Ecology and Evolution*, 634–646. DOI: 10.1111/2041-210X.12198.
+- InVEST 与 FRAGSTATS 官方模型文档及版本固定的原生软件。
+
+文献参数、数据处理和本研究的适配分别记录。程序数值核验、参数敏感性和生态过程验证属于不同证据，不相互替代。
