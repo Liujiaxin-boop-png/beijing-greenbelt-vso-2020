@@ -1,0 +1,268 @@
+{
+  "specification": "218_MCR_JIN2024_TWO_FACTOR",
+  "version": "2026-11-06",
+  "status": "COMPLETE_PUBLISHED_LAND_ROAD_TABLE_WITH_EXPLICIT_TWO_FACTOR_ADAPTATION",
+  "source": {
+    "id": "JIN2024",
+    "authors": "Bowen Jin; Jianwei Geng; Zhengning Ding; Linye Guo; Quanquan Rui; Jiamei Wu; Shengqi Peng; Ruichong Jin; Xinwen Fu; Hui Pan; Guochang Ding",
+    "year": 2024,
+    "title": "Construction and optimization of ecological corridors in coastal cities based on the perspective of structure-function",
+    "journal": "Scientific Reports",
+    "volume": "14",
+    "article": "27945",
+    "doi": "10.1038/s41598-024-79433-9",
+    "url": "https://www.nature.com/articles/s41598-024-79433-9",
+    "local_pdf": "sources/Jin2024_SciRep_79433.pdf",
+    "locator": "Table1 PDFp6; source selectionp5,p9; limitationp16",
+    "CAS_quartile": "NOT_VERIFIED; do not call Nature main journal or verified CASQ1"
+  },
+  "official_status_check": {
+    "date": "2026-11-06",
+    "publisher_version_of_record": "2024-11-14",
+    "publisher_notice_search": "No retraction/author correction/expression-of-concern banner found in retrieved official article HTML",
+    "crossmark_status_exact": "Document is current",
+    "crossmark_updates_exact": "Any future updates will be listed below",
+    "crossmark_url": "https://crossmark.crossref.org/dialog/?doi=10.1038/s41598-024-79433-9",
+    "local_evidence": [
+      "sources/Jin2024_publisher_page.html",
+      "sources/Jin2024_Crossmark.html",
+      "sources/Jin2024_Crossref_record_20261106.json"
+    ]
+  },
+  "original_context": {
+    "place": "Changle District, Fuzhou, Fujian, China",
+    "area_km2": 729,
+    "year": 2020,
+    "original_target": "general ecological corridor construction and optimisation; not a validated named-species movement model",
+    "land_source": "ESA WorldCover2020,10m; paper states analysis rasters30m",
+    "software": "ArcGIS10.8, Guidos Toolbox, Conefor2.6, Linkage Mapper, Circuitscape",
+    "resistance_components": [
+      "LUCC",
+      "RSEI",
+      "MSPA landscape element",
+      "DEM",
+      "slope",
+      "distance from railroad",
+      "distance to highway"
+    ]
+  },
+  "land_cost": {
+    "scale": "positive relative resistance ranks1,3,5,7,9",
+    "rows": [
+      {
+        "clcd_code": 1,
+        "landcover": "cropland",
+        "label_zh": "耕地",
+        "cost": 5
+      },
+      {
+        "clcd_code": 2,
+        "landcover": "forest",
+        "label_zh": "林地",
+        "cost": 1
+      },
+      {
+        "clcd_code": 3,
+        "landcover": "shrub",
+        "label_zh": "灌丛",
+        "cost": 3
+      },
+      {
+        "clcd_code": 4,
+        "landcover": "grassland",
+        "label_zh": "草地",
+        "cost": 3
+      },
+      {
+        "clcd_code": 5,
+        "landcover": "water",
+        "label_zh": "水体",
+        "cost": 5
+      },
+      {
+        "clcd_code": 7,
+        "landcover": "barren",
+        "label_zh": "裸地",
+        "cost": 7
+      },
+      {
+        "clcd_code": 8,
+        "landcover": "impervious",
+        "label_zh": "建设不透水面",
+        "cost": 9
+      },
+      {
+        "clcd_code": 9,
+        "landcover": "wetland",
+        "label_zh": "湿地",
+        "cost": 1
+      }
+    ],
+    "not_present_in_source_table": [
+      "snow/ice"
+    ],
+    "no_unmapped_default": "STOP if an unmapped non-NoData class actually occurs in analysis background; never silently replace with a known class"
+  },
+  "road_cost": {
+    "source_label": "Distance to highway",
+    "unit": "m",
+    "scale": "same positive relative scale1,3,5,7,9",
+    "original_table_endpoint_labels": [
+      "<200",
+      "200-400",
+      "400-800",
+      "800-1000",
+      ">1000"
+    ],
+    "bins_executable": [
+      {
+        "lo_inclusive_m": 0,
+        "hi_exclusive_m": 200,
+        "cost": 9
+      },
+      {
+        "lo_inclusive_m": 200,
+        "hi_exclusive_m": 400,
+        "cost": 7
+      },
+      {
+        "lo_inclusive_m": 400,
+        "hi_exclusive_m": 800,
+        "cost": 5
+      },
+      {
+        "lo_inclusive_m": 800,
+        "hi_exclusive_m": 1000,
+        "cost": 3
+      },
+      {
+        "lo_inclusive_m": 1000,
+        "hi_exclusive_m": null,
+        "cost": 1
+      }
+    ],
+    "bin_closure_note": "Table does not resolve exact shared endpoints. Half-open bins are declared implementation; exactly1000 goes lastbin. This is not an extra biological cutoff.",
+    "road_class_mapping": "Original refers to highways/roads sourcedfromOSM but doesnotpublishfclassfilter. Freeze and report main-road fclass in the main project; preserve samefilterinHQ/MCR as documented rather than allpaths."
+  },
+  "weights": {
+    "original_LUCC": 0.3445,
+    "original_highway": 0.0281,
+    "retained_weight_sum": 0.3726,
+    "formula_land": "0.3445/(0.3445+0.0281)",
+    "formula_road": "0.0281/(0.3445+0.0281)",
+    "normalised_land": 0.9245840042941492,
+    "normalised_road": 0.07541599570585078,
+    "resistance_formula": "R_twofactor=(0.3445*R_LUCC+0.0281*R_road)/(0.3445+0.0281)",
+    "meaning": "Retains published relative weighting of the two inputs, not a newly estimatedAHP or local expert judgment. Dividingby.3726 changes absolutecost byconstant and doesnotchangeleastcostroutes vs unnormalisedtwolayers."
+  },
+  "adaptation_for_218": {
+    "fixed_inputs": [
+      "landcover",
+      "main-road distance"
+    ],
+    "omitted_original_inputs": [
+      "RSEI",
+      "MSPA class as resistance",
+      "DEM as resistance",
+      "slope as resistance",
+      "railroad distance"
+    ],
+    "same_general_surface_for": [
+      "forest+shrub sources",
+      "grassland sources",
+      "water+wetland sources"
+    ],
+    "source_type_separate": true,
+    "no_mix_with_Chen_or_Na_numeric_rows": true,
+    "calibration_status": "Literature-transferred landscape resistance scenario, not Beijing-local fitted biological resistance. Water5 is generalterrestriallandscapepenetrability, not aquaticflowresistance.",
+    "preserved_framework": "VSO six indicators unchanged; HQ/NTL excluded from source/resistance to avoid directre-use."
+  },
+  "source_core_selection": {
+    "baseline_reference": "CHEN2024 p11 and supplementcontext; notJinRSEIbasedsource",
+    "foreground_each_group_separately": true,
+    "edge_pixels": 1,
+    "edge_m_at30m": 30,
+    "patch_connectivity": 8,
+    "baseline_min_area_ha": 10,
+    "baseline_operator": ">=",
+    "comparison_options": [
+      {
+        "source": "Chen2024 citing Callaghan2018",
+        "area_ha": 35,
+        "operator": ">=",
+        "interpretation": "within cited10-35ha greenspacearea range; sensitivityscreening not Beijingcalibration"
+      },
+      {
+        "source": "FENG2024 p7",
+        "area_ha": 100,
+        "operator": ">",
+        "interpretation": "1km2 cross-scale area-threshold scenario, not fullFeng PCscreening reproduction"
+      }
+    ],
+    "full_parent_patch_exclusion": true,
+    "no_HQ_NTL_RSEI_selection": true,
+    "Callaghan_primary_check": "Callaghan2018 Ecosphere9:e02347 p10 cites earlier localbird studies for10-35ha; itdoesnotestimate a Beijingthreshold. ArchivedprimaryPDF.",
+    "native_core_implementation": {
+      "software": "officialJRCMSPA2.4 October2026",
+      "foreground_connectivity": 8,
+      "effective_edge_width": 1,
+      "internal": 1,
+      "transition": 1,
+      "input_coding": {
+        "0": "trueNoData",
+        "1": "background",
+        "2": "foreground"
+      },
+      "core_codes": [
+        17,
+        117
+      ],
+      "source": "officialMSPAGuidep6; miallib_mspa.cgetcore248-264 and489-502",
+      "distance_detail": "officialsizeinternal=(user_eew+.98)/sqrt2, edu=sqrt2; strictEDTthreshold=eew+.98pixel-centre units. At eew1 validinterior equivalent3x3squareerosion; notEDT>1px",
+      "edge_no_data": "officialfm_preproc andfm_preproc2 extendforeground intoNoData andpropagateouterborder; flag extent-touchingparentpatches asbackground-truncated",
+      "safe_input_encoding": "8bit singleband TIFF, untiled single-row strips; nativeversion rejectsourQAwheninputtiled despiteexit0",
+      "native_georeference": "notretained in synthetic test; retainnativefile andcreate separategeoreferencedcopy onlyafterexactshapematch"
+    }
+  },
+  "Jin_original_source_and_sensitivity": {
+    "source": "MSPAcore intersect RSEI>.8, then Conefor dPC>.5; connectivity distance1000m and probability.5; p9",
+    "MSPA": "Foregroundforest,shrub,grass,wetland,8neighbor,edge1pixel10m; p5",
+    "do_not_adopt": "RSEIscreen,dPCscreen,10mMSPAcellsize and1kmdispersal cutoff do not automaticallyenter218. Core10ha baseline remainsChen-based.",
+    "original_parameter_sweep": "No systematic land/road resistancevalue orAHPweight sweep located in full19-pagearticle. Published corridorwidthoptimization is not resistancecalibration.",
+    "parameter_validation_claim": "Do not claim Jin empirically validated these exactresistances in Beijing; use218parametercomparison and report it asmodeluncertainty."
+  },
+  "computation_contract": {
+    "native_tool": "ArcMap10.8 Spatial Analyst Cost Distance",
+    "unit": "relative-resistance metre",
+    "positive_cost": true,
+    "source_background": "NoData;0mustnotbeusedfor nonsource",
+    "domain": "completebackground, notstudyborderclipped",
+    "target_cost": "minimum from focalpatch to otherqualifiedsame-typecore, excludeallcores ofsamefullParentPatchID",
+    "grid_summary": "intersectingfocalhabitat areaweightedpatchcost",
+    "missing_codes": [
+      "NO_SAME_TYPE_ALTERNATIVE_SOURCE",
+      "INCOMPLETE_BACKGROUND",
+      "DISCONNECTED_COST_DOMAIN",
+      "NO_FOCAL_HABITAT"
+    ],
+    "retain": [
+      "destination_source_id",
+      "parent_patch_id",
+      "focal_habitat_type",
+      "euclidean_distance",
+      "cost",
+      "intersectedhabitat_area"
+    ]
+  },
+  "parameter_diagnostics": {
+    "remove_road_only": {
+      "formula": "R_diagnostic=R_LULC",
+      "weight_land": 1,
+      "weight_road": 0,
+      "change_only_one_input_component": true,
+      "same_sources": true,
+      "interpretation": "road influence diagnostic; neither localcalibration nor optimalweight estimation",
+      "normalization": "do not retain.3445 multiplier whenroad removed; renormaliselandto1 tokeepresistance1-9scale"
+    }
+  }
+}

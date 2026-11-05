@@ -1,0 +1,11 @@
+# Actual direct dependencies of the standalone Python 3.12 analysis environment.
+# Native GIS environments and manuscript python-docx environment are separate.
+numpy==2.5.1
+pandas==3.0.3
+scipy==1.18.0
+rasterio==1.5.0
+geopandas==1.1.4
+shapely==2.1.2
+pyproj==3.7.2
+requests==2.34.2
+jsonschema==4.26.0

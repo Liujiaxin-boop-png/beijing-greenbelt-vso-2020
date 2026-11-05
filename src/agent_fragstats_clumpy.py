@@ -9,12 +9,13 @@ from pathlib import Path
 import csv
 import hashlib
 import json
+import os
 import shutil
 import sqlite3
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
-WORK = ROOT / '02_过程文件' / '计算审计' / 'FRAGSTATS4.2'
+WORK = Path(os.environ.get('ER219_FRAGSTATS_HOME',str(ROOT / '02_过程文件' / '计算审计' / 'FRAGSTATS4.2')))
 MODEL = WORK / 'tutorial' / 'Tutorial_3' / 'fragmodel.fca'
 EXE = WORK / 'portable' / 'frg_cmd.exe'
 
@@ -38,7 +39,7 @@ def prepare_model(path, neighborhood=8):
     return path
 
 
-def run_ascii_grids(grids, work, cell_size=30.0, neighborhood=8):
+def run_ascii_grids(grids, work, cell_size=30.0, neighborhood=8, timeout=120):
     """grids maps an ASCII identifier to a rectangular sequence of row values."""
     work = Path(work).resolve()
     work.mkdir(parents=True,exist_ok=True)
@@ -57,7 +58,7 @@ def run_ascii_grids(grids, work, cell_size=30.0, neighborhood=8):
         inputs.append({'name':name,'rows':rows,'cols':cols,'sha256':sha256(grid)})
     (work/'inputs.fbt').write_text('\n'.join(lines)+'\n',encoding='ascii')
     command=[str(EXE),'/m','clumpy.fca','/b','inputs.fbt','/o','./clumpy_results']
-    cp=subprocess.run(command,cwd=work,capture_output=True,timeout=120)
+    cp=subprocess.run(command,cwd=work,capture_output=True,timeout=timeout)
     log=cp.stdout.decode('utf-8','replace')+'\n'+cp.stderr.decode('utf-8','replace')
     (work/'frg_command.log').write_text(log,encoding='utf-8')
     result={'exit_code':cp.returncode,'exe_sha256':sha256(EXE),'model_sha256':sha256(model),

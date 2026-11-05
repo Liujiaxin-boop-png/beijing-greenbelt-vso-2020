@@ -1,11 +1,13 @@
 """Make tiny synthetic inputs using GDAL/rasterio, for native ArcMap tests."""
 from pathlib import Path
 import json
+import sys
 import numpy as np
 import rasterio
 from rasterio.transform import from_origin
 
-root=Path('D:/ER219_work/native_tests/synthetic_mcr_gdal')
+root=(Path(sys.argv[1]) if len(sys.argv)>1 else
+      Path(__file__).resolve().parents[2]/'02_过程文件'/'native_tests'/'synthetic_mcr_gdal')
 root.mkdir(parents=True,exist_ok=True)
 p=np.zeros((9,11),dtype=np.int32)
 p[1:4,1:4]=10;p[5:8,8:10]=20;p[6:8,1:3]=30

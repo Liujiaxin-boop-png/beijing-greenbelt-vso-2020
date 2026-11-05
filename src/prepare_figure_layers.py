@@ -1,0 +1,21 @@
+"""Prepare honest map support and a compact native GIS map source."""
+from pathlib import Path
+import json
+import rasterio
+import numpy as np
+ROOT=Path(__file__).resolve().parents[2]
+work=ROOT/'02_过程文件/map_inputs';work.mkdir(exist_ok=True)
+with rasterio.open(ROOT/'02_过程文件/spatial/clcd2020.tif') as ds:
+    land=ds.read(1);profile=ds.profile
+with rasterio.open(ROOT/'02_过程文件/spatial/reporting_mask.tif') as ds:
+    mask=ds.read(1)>0
+profile.update(nodata=0,compress='LZW')
+with rasterio.open(work/'clcd2020_scope_display.tif','w',**profile) as ds:
+    ds.write(np.where(mask,land,0).astype(land.dtype),1)
+palette={'theme':'muted ecological map; categorical landcover; ordered score light-to-dark teal',
+ 'landcover':{'1':['耕地','#D8CBA3'],'2':['林地','#527F71'],'3':['灌丛','#91AB85'],'4':['草地','#C7D7AA'],'5':['水体','#649DB4'],'7':['裸地','#CECBC4'],'8':['不透水面','#A6A2A0'],'9':['湿地','#8ABFC1']},
+ 'sequential':['#EFF6F4','#C9DFD8','#96C0B5','#5D968A','#2C6E62'],
+ 'negative_difference':'#B97846','positive_difference':'#427D8C','missing':'#ECECEC',
+ 'note':'All maps use one palette; absent/not-applicable kept distinct from numerical zero. Class colour is not quality rank.'}
+(work/'palette.json').write_text(json.dumps(palette,ensure_ascii=False,indent=2),encoding='utf8')
+print('MAP_INPUTS_READY')
