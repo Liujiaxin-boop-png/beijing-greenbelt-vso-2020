@@ -25,9 +25,9 @@ def build():
     for lyr in [land,towns,scope]:project.addMapLayer(lyr)
     project.setCrs(scope.crs());project.setFilePathStorage(Qgis.FilePathType.Relative)
     layout=QgsPrintLayout(project);layout.initializeDefaults();layout.setName('图1 研究范围与土地覆盖')
-    layout.pageCollection().pages()[0].setPageSize(QgsLayoutSize(190,200))
+    layout.pageCollection().pages()[0].setPageSize(QgsLayoutSize(190,220))
     def label(text,x,y,w,h,size=9,bold=False):
-        item=QgsLayoutItemLabel(layout);item.setText(text);font=QFont('Microsoft YaHei',size);font.setBold(bold);item.setFont(font);item.setFontColor(QColor('#303A36'))
+        item=QgsLayoutItemLabel(layout);item.setText(text);font=QFont('Microsoft YaHei');font.setPointSizeF(size);font.setBold(bold);item.setFont(font);item.setFontColor(QColor('#303A36'))
         layout.addLayoutItem(item);item.attemptMove(QgsLayoutPoint(x,y));item.attemptResize(QgsLayoutSize(w,h));return item
     label('研究区范围与2020年土地覆盖',8,4,176,9,12,True)
     label('35个乡镇覆盖部分  |  研究区面积 1987.900 km²',8,13,170,7,8)
@@ -40,11 +40,11 @@ def build():
     label('N',167,24,10,7,10,True)
     # Use a simple north glyph; map is not rotated, and caption states grid north.
     label('↑',168,30,7,10,15)
-    scale=QgsLayoutItemScaleBar(layout);scale.setStyle('Single Box');scale.setLinkedMap(mp);scale.setUnits(QgsUnitTypes.DistanceKilometers);scale.setUnitsPerSegment(10);scale.setNumberOfSegments(2);scale.setNumberOfSegmentsLeft(0);scale.setUnitLabel('km');scale.setFont(QFont('Microsoft YaHei',7));scale.setHeight(1.5);layout.addLayoutItem(scale);scale.attemptMove(QgsLayoutPoint(14,154))
+    scale=QgsLayoutItemScaleBar(layout);scale.setStyle('Single Box');scale.setLinkedMap(mp);scale.setUnits(QgsUnitTypes.DistanceKilometers);scale.setUnitsPerSegment(10);scale.setNumberOfSegments(2);scale.setNumberOfSegmentsLeft(0);scale.setUnitLabel('km');scale.setFont(QFont('Microsoft YaHei',11));scale.setHeight(1.5);layout.addLayoutItem(scale);scale.attemptMove(QgsLayoutPoint(14,167))
     for i,(key,(name,color)) in enumerate(palette['landcover'].items()):
-        col=i%4;row=i//4;x=12+col*42;y=171+row*8
-        sw=QgsLayoutItemShape(layout);sw.setShapeType(QgsLayoutItemShape.Rectangle);sw.setSymbol(QgsFillSymbol.createSimple({'color':color,'outline_style':'no'}));layout.addLayoutItem(sw);sw.attemptMove(QgsLayoutPoint(x,y+1));sw.attemptResize(QgsLayoutSize(5,3.5));label(name,x+7,y,34,6,8)
-    label('WGS 84 Albers等积投影；N为格网北。乡镇界仅显示研究范围内部分。',8,189,176,7,7)
+        col=i%4;row=i//4;x=12+col*42;y=182+row*9
+        sw=QgsLayoutItemShape(layout);sw.setShapeType(QgsLayoutItemShape.Rectangle);sw.setSymbol(QgsFillSymbol.createSimple({'color':color,'outline_style':'no'}));layout.addLayoutItem(sw);sw.attemptMove(QgsLayoutPoint(x,y+1));sw.attemptResize(QgsLayoutSize(5,3.5));label(name,x+7,y,34,6,10.5)
+    label('WGS 84 Albers等积投影；N为格网北。\n乡镇界仅显示研究范围内部分。',8,203,176,12,9.5)
     project.layoutManager().addLayout(layout)
     layout.refresh();app.processEvents()
     qgz=OUT/'生态韧性2020_可编辑地图.qgz';assert project.write(str(qgz))

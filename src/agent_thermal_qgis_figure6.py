@@ -36,9 +36,9 @@ def build():
   assert layer.isValid()
   project.addMapLayer(layer)
  layout=QgsPrintLayout(project);layout.initializeDefaults();layout.setName("图6 灰绿配置与热环境")
- layout.pageCollection().pages()[0].setPageSize(QgsLayoutSize(210,190))
+ layout.pageCollection().pages()[0].setPageSize(QgsLayoutSize(210,228))
  item_bounds=[];point_audit=[];native_item_refs=[]
- def label(text,x,y,w,h,size=8,bold=False,color=None,align=Qt.AlignLeft,item_id=None):
+ def label(text,x,y,w,h,size=11.5,bold=False,color=None,align=Qt.AlignLeft,item_id=None):
   it=QgsLayoutItemLabel(layout);it.setText(text)
   font=QFont("Microsoft YaHei");font.setPointSizeF(size);font.setBold(bold);it.setFont(font)
   it.setFontColor(QColor(color or PALETTE["text"]));it.setMargin(0)
@@ -62,8 +62,8 @@ def build():
   if item_id:it.setId(item_id)
   native_item_refs.append(it)
   return it
- label("灰绿配置与同期地表温度",10,5,190,9,12.5,True,item_id="figure_title")
- label("2020年8月3日  ·  完整1 km方格  ·  每幅 n = 1,268",10,14,190,7,8.5,item_id="figure_subtitle")
+ label("灰绿配置与同期地表温度",10,4,190,10,16,True,item_id="figure_title")
+ label("2020年8月3日  ·  完整1 km方格  ·  每幅 n = 1,268",10,14,190,8,11.5,item_id="figure_subtitle")
  panel_configs=[{"key":"SSI","x":24,"xmin":0,"xmax":1000,"ticks":[0,200,400,600,800,1000],
  "heading":"a  源汇平均距离","xlabel":"源汇平均距离 SSI（m）"},
  {"key":"E_fraction","x":124,"xmin":0,"xmax":1,"ticks":[0,.2,.4,.6,.8,1],
@@ -71,20 +71,20 @@ def build():
  plot_y=40;pw=76;ph=62;ymin=30;ymax=50
  for config in panel_configs:
   key=config["key"];px=config["x"]
-  label(config["heading"],px,24,pw,7,9.5,True,item_id="panel_"+key+"_heading")
-  label("地表温度 LST（℃）",px,32,40,6,8,item_id="panel_"+key+"_y_title")
+  label(config["heading"],px,24,pw,7,12.5,True,item_id="panel_"+key+"_heading")
+  label("地表温度 LST（℃）",px,32,40,7,11.5,item_id="panel_"+key+"_y_title")
   rho=float(lookup[("ALL",key)]["spearman_rho"])
   rho_text=("−" if rho<0 else "")+format(abs(rho),".3f")
-  label("ρ = "+rho_text,px+40,32,36,6,8.5,True,PALETTE["emphasis"],Qt.AlignRight,item_id="panel_"+key+"_rho")
+  label("ρ = "+rho_text,px+40,32,36,7,11.5,True,PALETTE["emphasis"],Qt.AlignRight,item_id="panel_"+key+"_rho")
   for yv in [30,35,40,45,50]:
    yy=plot_y+ph-(yv-ymin)/(ymax-ymin)*ph
    line(px,yy,px+pw,yy,PALETTE["grid"],.12)
    line(px-1,yy,px,yy,width=.18)
-   label(str(yv),px-11,yy-2.5,8,5,7.5,align=Qt.AlignRight)
+   label(str(yv),px-11,yy-3.5,8,7,11.5,align=Qt.AlignRight)
   for xv in config["ticks"]:
    xx=px+(xv-config["xmin"])/(config["xmax"]-config["xmin"])*pw
    line(xx,plot_y+ph,xx,plot_y+ph+1,width=.18)
-   label(str(xv) if key=="SSI" else format(xv,".1f"),xx-7,plot_y+ph+2,14,5,7.5,align=Qt.AlignHCenter)
+   label(str(xv) if key=="SSI" else format(xv,".1f"),xx-7,plot_y+ph+2,14,7,11.5,align=Qt.AlignHCenter)
   line(px,plot_y,px,plot_y+ph,width=.23)
   line(px,plot_y+ph,px+pw,plot_y+ph,width=.23)
   for row in points:
@@ -95,27 +95,28 @@ def build():
    # Equal symbol size for every observation; alpha exposes overlap without moving points.
    it=shape(xx-.38,yy-.38,.76,.76,"82,127,113,100",True,"point_"+key+"_"+row["Grid_ID"])
    point_audit.append({"panel":key,"Grid_ID":row["Grid_ID"],"x_value":xv,"LST_C":yv,"layout_x_mm":xx,"layout_y_mm":yy})
-  label(config["xlabel"],px-4,111,pw+8,7,8.5,align=Qt.AlignHCenter,item_id="panel_"+key+"_x_title")
- label("c  分片区重复比较",24,127,176,7,9.5,True,item_id="matrix_heading")
+  label(config["xlabel"],px-4,115,pw+8,8,11.5,align=Qt.AlignHCenter,item_id="panel_"+key+"_x_title")
+ label("c  分片区重复比较",24,135,176,8,12.5,True,item_id="matrix_heading")
  # A numerical matrix with row tint only; no unlabelled heatmap color scale.
  cols=["NW","NE","SW","SE"];cn={"NW":"西北","NE":"东北","SW":"西南","SE":"东南"}
- table_x=24;table_y=138;label_w=56;cell_w=30
+ table_x=24;table_y=147;label_w=56;cell_w=30
  for i,q in enumerate(cols):
   n=int(lookup[(q,"SSI")]["n_grid_pairs"])
-  label(cn[q]+"\nn = "+str(n),table_x+label_w+i*cell_w,table_y,cell_w,12,8,align=Qt.AlignHCenter,item_id="header_"+q)
- line(table_x,table_y+12,200,table_y+12,PALETTE["grid"],.2)
+  label(cn[q]+"\nn = "+str(n),table_x+label_w+i*cell_w,table_y,cell_w,16,11.5,align=Qt.AlignHCenter,item_id="header_"+q)
+ line(table_x,table_y+16,200,table_y+16,PALETTE["grid"],.2)
  for j,key in enumerate(["SSI","E_fraction"]):
-  yy=table_y+12+j*10
-  shape(table_x,yy,176,10,PALETTE["positive_row"] if j==0 else PALETTE["negative_row"],item_id="matrix_row_"+key)
-  label("源汇平均距离 SSI" if j==0 else "生态空间比例 E/(E+C)",table_x+3,yy,label_w-3,10,8.3,item_id="row_label_"+key)
+  yy=table_y+16+j*12
+  shape(table_x,yy,176,12,PALETTE["positive_row"] if j==0 else PALETTE["negative_row"],item_id="matrix_row_"+key)
+  label("源汇平均距离 SSI" if j==0 else "生态空间比例 E/(E+C)",table_x+3,yy,label_w-3,12,11.5,item_id="row_label_"+key)
   for i,q in enumerate(cols):
    value=float(lookup[(q,key)]["spearman_rho"])
    text=("−" if value<0 else "")+format(abs(value),".3f")
-   label(text,table_x+label_w+i*cell_w,yy,cell_w,10,10.5,True,PALETTE["positive_text"] if j==0 else PALETTE["negative_text"],Qt.AlignHCenter,
+   label(text,table_x+label_w+i*cell_w,yy,cell_w,12,13,True,PALETTE["positive_text"] if j==0 else PALETTE["negative_text"],Qt.AlignHCenter,
     item_id="rho_"+q+"_"+key)
- line(table_x,table_y+32,200,table_y+32,PALETTE["grid"],.2)
- label("每点为1个真实方格。E为生态空间，C为建设空间；ρ为Spearman秩相关系数。",10,175,190,6,7.1,item_id="note_1")
- label("描述同期关联，不表示因果效应。四片区按研究范围包络中点与方格质心划分。",10,181,190,6,7.1,item_id="note_2")
+ line(table_x,table_y+40,200,table_y+40,PALETTE["grid"],.2)
+ label("每点为1个1 km方格。E为生态空间，C为建设空间；",10,196,190,8,11.5,item_id="note_1")
+ label("ρ为Spearman秩相关系数，描述同期关联，不表示因果效应。",10,205,190,8,11.5,item_id="note_2")
+ label("四片区按研究范围包络中点与方格质心划分。",10,214,190,8,11.5,item_id="note_3")
  project.layoutManager().addLayout(layout)
  # Fix stack levels explicitly; QGIS can otherwise rebuild same-level scene
  # order differently when a saved print layout is read without a GUI.
@@ -140,17 +141,19 @@ def build():
   dest=OUT/("图6_灰绿配置与热环境."+ext);shutil.copy2(exportdir/("fig6."+ext),dest)
   exported.append({"path":str(dest.relative_to(ROOT)),"bytes":dest.stat().st_size,"sha256":digest(dest)})
  for item in item_bounds:
-  assert item["x"]>=0 and item["y"]>=0 and item["x"]+item["width"]<=210.01 and item["y"]+item["height"]<=190.01
+  assert item["x"]>=0 and item["y"]>=0 and item["x"]+item["width"]<=210.01 and item["y"]+item["height"]<=228.01
+  assert item["font_pt"]>=11.5
  with (QA/"native_layout_points.csv").open("w",encoding="utf-8-sig",newline="") as f:
   writer=csv.DictWriter(f,fieldnames=list(point_audit[0]));writer.writeheader();writer.writerows(point_audit)
  receipt={"status":"NATIVE_QGIS_EXPORTED_PENDING_VISUAL_REVIEW","engine":"QGIS "+Qgis.QGIS_VERSION,
- "layout_size_mm":[210,190],"scatter_n_each_panel":1268,"native_point_items":len(point_audit),"source_csv":str(SCATTER.relative_to(ROOT)),
+ "layout_size_mm":[210,228],"scatter_n_each_panel":1268,"native_point_items":len(point_audit),"source_csv":str(SCATTER.relative_to(ROOT)),
  "source_sha256":digest(SCATTER),"stats_sha256":digest(STATS),"editable_project":str(qgz.relative_to(ROOT)),
  "implementation":"QGIS-native shape/line/label print-layout items; source CSV tables included in project; no image synthesis or matplotlib.",
  "point_geometry":"All data points linearly mapped from real numerical values, equal 0.76 mm diameter, no jitter/fit/outlier removal.",
  "axes":{"SSI":[0,1000],"E_fraction":[0,1],"LST_C":[30,50]},"palette":PALETTE,"point_alpha":100,
  "matrix":"Numerical rho matrix with row tint only; values and signs are explicit. No magnitude encoded by arbitrary hue.",
  "font":"Microsoft YaHei, loaded from C:/Windows/Fonts/msyh.ttc",
+ "typography":{"target_manuscript_width_mm":146.4,"native_min_font_pt":11.5,"minimum_font_at_target_width_pt":11.5*146.4/210,"notes_lines":3,"prior_point_positions_unchanged":True},
  "label_items":item_bounds,"exports":exported,"project_relative_paths":True}
  (QA/"figure6_native_receipt.json").write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding="utf8")
  print("FIGURE6_QGIS_EXPORTED",flush=True)

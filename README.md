@@ -5,7 +5,7 @@
 
 ## 执行状态
 
-正在执行。已完成原生 HQ、CLUMPY、MSPA、欧氏距离、灰绿配置及热环境分析；15 组 MCR 对照正在原生软件中顺序运行。真实 EOG 2020 年度亮度与原始有效观测次数尚未取得，综合指数因此尚未计算。
+正在执行。已完成原生 HQ、CLUMPY、MSPA、欧氏距离、灰绿配置及热环境分析；15 个 MCR 情景、181 组原生计算全部完成，9 组源地阈值单调性检查通过，结果已按哈希核验后归档。MCR 格网汇总为 172185 条记录，六指标基础表为 68874 条记录。真实 EOG 2020 年度亮度与原始有效观测次数尚未取得，基础表保留 NTL 缺失，综合指数因此尚未计算。
 尚未生成或声称完成新的六指标综合评价结果。旧仓库中的抵抗力—恢复力—适应力结果不属于本次分析。
 
 ## 方法与目录
@@ -148,5 +148,7 @@ FRAGSTATS 使用[作者仓库固定提交](https://github.com/kmcgarigal/Fragsta
 ## 论文与补充图
 
 `prepare_manuscript_content.py` 仅整理过程目录中的已核验引言、方法及真实热环境段落，不生成完整论文。`build_manuscript.py` 要求内容标记为 READY_FOR_LAYOUT、真实六指标数值验收为 PASS，才可创建新的匿名 Word 文件；原生 Office 渲染与逐页审阅仍须另行完成。文档环境使用 `requirements-manuscript.txt`，与分析/GIS 环境分开。
+
+`build_methods_preview.py` 只在过程目录生成明确标记的引言与方法排版校样。当前校样经本机 WPS 原生只读打开和 PDF 渲染，共 9 页、6 个可编辑公式，已逐页检查；它不包含综合评价结果和结论，不能当作已完成论文。图 1、图 2 和图 6 已在 QGIS 原生布局中优化字体，并独立重开后检查。`render_docx_native.ps1` 保留用户已有窗口，不保存或关闭原文档；`render_docx_pages.py` 使用已有原生 PDF 为页图转换提供输入。
 
 补充图 S1 的独立链为普通 Python 的 `agent_s1_prepare.py`，QGIS Python 的 `agent_s1_qgis_map.py`、`agent_s1_qgis_validate.py`；它展示 HQ、CLUMPY、SSI 与 E/(E+C) 原始值，不能当作六指标综合评价图。任何命名为 finalize 的交付脚本都须在实际目视审阅后运行，不能用脚本名称代替审阅。

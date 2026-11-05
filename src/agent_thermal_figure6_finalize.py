@@ -16,6 +16,8 @@ assert args.visual_reviewed, "Review original and QGIS-reopened whole PNG images
 receipt=json.loads((QA/"figure6_native_receipt.json").read_text(encoding="utf8"))
 native=json.loads((QA/"figure6_native_reopen_QA.json").read_text(encoding="utf8"))
 assert native["status"]=="NATIVE_PROJECT_REOPEN_AND_POINT_CHECK_PASSED"
+typography=json.loads((QA/"figure6_typography_QA.json").read_text(encoding="utf8"))
+assert typography["native_min_font_pt"]>=11.5 and typography["minimum_font_at_target_width_pt"]>=8
 original=np.array(Image.open(OUT/"图6_灰绿配置与热环境.png").convert("RGBA"),dtype=np.int16)
 reopened=np.array(Image.open(QA/"figure6_native_reopened.png").convert("RGBA"),dtype=np.int16)
 assert original.shape==reopened.shape
@@ -41,14 +43,20 @@ visual={"status":"PASS_NATIVE_AND_VISUAL_REVIEW", "reviewed_utc":datetime.dateti
         "svg_embedded_raster_images":0,"svg_vector_paths":tags.count("path"),
         "relative_source_tables":sources,"data_points_per_panel":1268,"unique_editable_points":2536,
         "point_round_trip_position_max_error_mm":native["maximum_point_coordinate_error_mm"],
+        "native_min_font_pt":typography["native_min_font_pt"],"minimum_font_at_146_4mm_pt":typography["minimum_font_at_target_width_pt"],
+        "print_size_review":"Native QGIS previews at 146.4 mm width inspected at 96 dpi and150 dpi; axes, tick labels, matrix and three note lines remain legible with no overflow.",
         "no_point_omission_or_jitter":True,"no_fitted_line_or_p_value":True}
 (QA/"figure6_visual_QA.json").write_text(json.dumps(visual,ensure_ascii=False,indent=2),encoding="utf8")
 receipt["status"]=visual["status"];receipt["visual_QA"]="02_过程文件/figure6_QGIS/figure6_visual_QA.json"
 (QA/"figure6_native_receipt.json").write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding="utf8")
 native["visual_review"]="PASS: complete figure and native reopened figure inspected"
 (QA/"figure6_native_reopen_QA.json").write_text(json.dumps(native,ensure_ascii=False,indent=2),encoding="utf8")
+typography["status"]="PASS_NATIVE_FONTS_TEXT_BOXES_AND_PRINT_SIZE_VISUAL_REVIEW"
+(QA/"figure6_typography_QA.json").write_text(json.dumps(typography,ensure_ascii=False,indent=2),encoding="utf8")
 files=[OUT/("图6_灰绿配置与热环境."+x) for x in ["png","pdf","svg"]]+[OUT/"热环境补充图.qgz"]
 files += [QA/x for x in ["native_layout_points.csv","figure6_native_receipt.json","figure6_native_reopen_QA.json","figure6_visual_QA.json","figure6_native_reopened.png"]]
+files += [QA/x for x in ["figure6_typography_QA.json","figure6_print146_4mm_96dpi.png","figure6_print146_4mm_150dpi.png"]]
+files += [QA/"figure6_native_verified_final.png"]
 manifest={"status":visual["status"],"files":[{"path":str(p.relative_to(ROOT)),"bytes":p.stat().st_size,"sha256":hashlib.sha256(p.read_bytes()).hexdigest()} for p in files]}
 (QA/"figure6_delivery_manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf8")
 print("FIGURE6_FINAL_QA_PASS",flush=True)
