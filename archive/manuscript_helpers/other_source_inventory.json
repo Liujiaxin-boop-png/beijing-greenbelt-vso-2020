@@ -1,0 +1,127 @@
+{
+  "scan_scope": "02_过程文件 custom .py/.ps1/.js; third-party software trees/cache excluded",
+  "exact_copies_already_in_repo": 12,
+  "remaining_different_sources": [
+    {
+      "file": "02_过程文件/evaluation/jenks_implementation_fix/before_fix/pipeline.py",
+      "bytes": 4762,
+      "sha256": "d9422a387452f3b02d7fa7cd9db9c6d77e154b07577e2ae298c2f9e296d5ffe3",
+      "classification": "historical version of code already in repository",
+      "same_named_repo_files": [
+        "pipeline.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/evaluation/jenks_implementation_fix/before_fix/qgis_classify_scores.py",
+      "bytes": 1709,
+      "sha256": "77be90be2abb5d019a6e48ad9b9ec7abab90aa8571dc9b2e040b53e688e525d5",
+      "classification": "historical version of code already in repository",
+      "same_named_repo_files": [
+        "src\\qgis_classify_scores.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/evaluation/jenks_implementation_fix/before_fix/verify_final_analysis.py",
+      "bytes": 42467,
+      "sha256": "01e82106a38d546ba6e4220fa6bd94afa9bb6dbe9ffb28d850dd78e134e5c376",
+      "classification": "historical version of code already in repository",
+      "same_named_repo_files": [
+        "src\\verify_final_analysis.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/manuscript/venue/build_venue_report.py",
+      "bytes": 8998,
+      "sha256": "b5772c730fa749f29e1d503e14bab3829ec4d7312af53851c4bbe052b558256f",
+      "classification": "additional independent custom helper now archived",
+      "same_named_repo_files": [],
+      "archived_as": "archive/manuscript_helpers/misc/build_venue_report.py"
+    },
+    {
+      "file": "02_过程文件/map_results/before_scalebar_outside_final/agent_qgis_results_reopen.py",
+      "bytes": 5598,
+      "sha256": "a3a753bee08aa9b916e8f826e190a13d678f832fea8b8f05d714ec43d9cf74b9",
+      "classification": "historical version of code already in repository",
+      "same_named_repo_files": [
+        "src\\agent_qgis_results_reopen.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/map_results/before_scalebar_outside_final/qgis_result_maps.py",
+      "bytes": 11816,
+      "sha256": "98ebff0516e368cb316b079d81f1708b6f04e6416740153910d7ab7d60bbc623",
+      "classification": "historical version of code already in repository",
+      "same_named_repo_files": [
+        "src\\qgis_result_maps.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/参数文献核验/219_archive_parameter_sources.py",
+      "bytes": 2652,
+      "sha256": "28eea83b10cd134f2f9341cc5cb652dd7c98217fe03ff57e86b1ffa9ca0e60f7",
+      "classification": "additional independent custom helper now archived",
+      "same_named_repo_files": [],
+      "archived_as": "archive/manuscript_helpers/misc/219_archive_parameter_sources.py"
+    },
+    {
+      "file": "02_过程文件/参数文献核验/219_build_parameter_audit.py",
+      "bytes": 15441,
+      "sha256": "a7edb4fc06fb06b7950868e53844fe83e0783d28352d33643106514432279503",
+      "classification": "additional independent custom helper now archived",
+      "same_named_repo_files": [],
+      "archived_as": "archive/manuscript_helpers/misc/219_build_parameter_audit.py"
+    },
+    {
+      "file": "02_过程文件/参数文献核验/sources/InVEST3_20_2_habitat_quality.py",
+      "bytes": 56917,
+      "sha256": "bfdb8447027be1033e1b95a056098fe305750fe96526a3ebd22f9bae6fde0fe0",
+      "classification": "third-party official InVEST source, exclude",
+      "same_named_repo_files": []
+    },
+    {
+      "file": "02_过程文件/数据审计/219_download_support.py",
+      "bytes": 6678,
+      "sha256": "79058558a02034f8941a97dceda4f387e51cc080b00d663798d13387b16c3cf7",
+      "classification": "same-named acquisition source already adapted in repository; retain original locally",
+      "same_named_repo_files": [
+        "src\\acquisition\\219_download_support.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/数据审计/219_download_worldcover.py",
+      "bytes": 2241,
+      "sha256": "af952cb2babc6d624d81ddeb5cf1336de8ba060940d38d812b49d6b1a73362bd",
+      "classification": "same-named acquisition source already adapted in repository; retain original locally",
+      "same_named_repo_files": [
+        "src\\acquisition\\219_download_worldcover.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/数据审计/219_finalize_data_audit.py",
+      "bytes": 6403,
+      "sha256": "5b4c378e27c6b32bdf6fe94ad6f10f5a726225b70977757b873645516c392948",
+      "classification": "same-named acquisition source already adapted in repository; retain original locally",
+      "same_named_repo_files": [
+        "src\\acquisition\\219_finalize_data_audit.py"
+      ]
+    },
+    {
+      "file": "02_过程文件/数据审计/219_inventory_stage.py",
+      "bytes": 4787,
+      "sha256": "f69893abf2ddc929e6f7261de637cc2adc7704ba17238c5db8acd182b0cdb1e7",
+      "classification": "same-named acquisition source already adapted in repository; retain original locally",
+      "same_named_repo_files": [
+        "src\\acquisition\\219_inventory_stage.py"
+      ]
+    }
+  ],
+  "excluded_dirs": [
+    ".git",
+    "FRAGSTATS4.2",
+    "__pycache__",
+    "site-packages",
+    "software"
+  ],
+  "additional_independent_helpers_remaining_unarchived": [],
+  "updated_utc": "2026-11-06T09:25:18.463757+00:00"
+}

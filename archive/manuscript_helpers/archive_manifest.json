@@ -1,0 +1,129 @@
+{
+  "status": "PASS_IDENTICAL_AUXILIARY_SOURCE_ARCHIVE",
+  "created_utc": "2026-11-06T09:24:07.530628+00:00",
+  "files_n": 14,
+  "files": [
+    {
+      "file": "agent_audit_evaluation.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_audit_evaluation.py",
+      "sha256": "0bada566116e570ea23f8f1413dff08b70eb752c16c7f4b4e82bb9f56ec93028",
+      "bytes": 10281,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_fetch_selected_fulltexts.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_fetch_selected_fulltexts.py",
+      "sha256": "3bc558d09a9646eda44e66852d25dad16008ffe338cd0f8988b4dd09185def91",
+      "bytes": 2152,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_finalize_evidence.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_finalize_evidence.py",
+      "sha256": "561809bb37f5a91f38b9e1f9539c2c28c3ec27e7805c8c956232da625c450504",
+      "bytes": 16311,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_full_manuscript_review.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_full_manuscript_review.py",
+      "sha256": "b43eaf234c63119d442e02b28fa85acb23c61b6ce2189920345db30440d34e60",
+      "bytes": 10519,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_reference_archive.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_reference_archive.py",
+      "sha256": "1ee35dc89b3b9502e57a14f1219f8fdde12001805c0a1232634a651692134ec5",
+      "bytes": 7750,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_result_interpretation.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_result_interpretation.py",
+      "sha256": "9fc3d5fa58ce7531acb6208b68725801de30d9028c84b8905c64193cb9751565",
+      "bytes": 20481,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_update_method_appendix.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_update_method_appendix.py",
+      "sha256": "1fcfe2020aa445650e56144b88b838aabd85f067decb399664ad3cd54204689b",
+      "bytes": 11126,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_write_intro_and_evidence.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_write_intro_and_evidence.py",
+      "sha256": "cfda893c40faaf42629b542cf231811d63962200b8867528915ca4dc728c3a76",
+      "bytes": 16461,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "agent_write_methods.py",
+      "source_relative_to_project": "02_过程文件/manuscript/agent_write_methods.py",
+      "sha256": "03a149db1525452112a04c29f3eb66937e9d98ffe2e0b37b0e9f322eec3bee66",
+      "bytes": 17487,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "build_reproducibility_audit.py",
+      "source_relative_to_project": "02_过程文件/manuscript/build_reproducibility_audit.py",
+      "sha256": "eff67352c9af85c9fb6fa76ab50d2edb99deff55e26ffebb8357692bb7fb3e65",
+      "bytes": 13758,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "prepare_method_clarity_patch.py",
+      "source_relative_to_project": "02_过程文件/manuscript/prepare_method_clarity_patch.py",
+      "sha256": "a7e9ee5af458bb69d8cd7baa9920ba7fd199f9dd5d78d15a8df829934e8330bd",
+      "bytes": 8799,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "misc/build_venue_report.py",
+      "source_relative_to_project": "02_过程文件/manuscript/venue/build_venue_report.py",
+      "sha256": "b5772c730fa749f29e1d503e14bab3829ec4d7312af53851c4bbe052b558256f",
+      "bytes": 8998,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "misc/219_archive_parameter_sources.py",
+      "source_relative_to_project": "02_过程文件/参数文献核验/219_archive_parameter_sources.py",
+      "sha256": "28eea83b10cd134f2f9341cc5cb652dd7c98217fe03ff57e86b1ffa9ca0e60f7",
+      "bytes": 2652,
+      "copy_identical": true,
+      "source_unchanged": true
+    },
+    {
+      "file": "misc/219_build_parameter_audit.py",
+      "source_relative_to_project": "02_过程文件/参数文献核验/219_build_parameter_audit.py",
+      "sha256": "a7edb4fc06fb06b7950868e53844fe83e0783d28352d33643106514432279503",
+      "bytes": 15441,
+      "copy_identical": true,
+      "source_unchanged": true
+    }
+  ],
+  "security_review": {
+    "high_confidence_token_cookie_password_findings": [],
+    "unrelated_private_text_findings": [],
+    "method": "Static credential-pattern and signed-URL screening plus review of URLs, sensitive-keyword contexts and long-text purpose; no browser profiles or credential stores accessed",
+    "sanitized": false,
+    "reason": "No sensitive content identified; original bytes preserved"
+  },
+  "execution": "Not run; historical manuscript helpers, not the primary analysis entrypoint",
+  "changes": "Only the new archive/manuscript_helpers directory; original process files retained; no Git commit or push",
+  "updated_utc": "2026-11-06T09:25:18.436216+00:00"
+}
