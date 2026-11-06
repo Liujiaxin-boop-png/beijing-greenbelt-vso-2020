@@ -25,7 +25,7 @@ STAGES={
  'ntl':[cmd('python','agent_ntl_aggregate.py','--config',work/'aggregation/ntl_inputs.json')],
  'aggregate':[cmd('python','aggregate_basics.py'),cmd('python','aggregate_mcr.py'),cmd('python','join_indicator_records.py')],
  'arithmetic_qa':[cmd('python','validate_evaluation_math.py')],
- 'evaluate':[cmd('python','evaluate_resilience.py'),cmd('qgis','qgis_classify_scores.py'),cmd('python','summarize_evaluation.py')],
+ 'evaluate':[cmd('python','evaluate_resilience.py'),cmd('python','classify_scores.py'),cmd('python','summarize_evaluation.py')],
  'context_maps':[cmd('python','prepare_figure_layers.py'),cmd('qgis','qgis_study_map.py'),cmd('qgis','qgis_method_diagram.py'),cmd('qgis','qgis_verify_context_projects.py')],
  'thermal':[cmd('python','agent_thermal_prepare.py'),cmd('python','agent_thermal_validate.py'),cmd('python','agent_thermal_association.py'),cmd('python','agent_thermal_association_validate.py')],
  'thermal_figure':[cmd('qgis','agent_thermal_qgis_figure6.py'),cmd('qgis','agent_thermal_qgis_figure6_validate.py')],

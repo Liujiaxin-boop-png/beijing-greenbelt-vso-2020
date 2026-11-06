@@ -1,4 +1,10 @@
-"""Native QGIS natural breaks, fitted once to each habitat baseline."""
+"""Historical QGIS diagnostic, excluded from the canonical pipeline.
+
+QGIS3.28.2 Jenks failed minimum-SSE verification (upstream issue67546).
+Use classify_scores.py with fixed jenkspy0.4.1; QGIS remains the map engine.
+The original diagnostic implementation below is preserved for audit only.
+"""
+raise RuntimeError('Use Python3.12 src/classify_scores.py; native QGIS3.28.2 Jenks is excluded after a verified upstream implementation defect.')
 import os,csv,json,gc
 from pathlib import Path
 os.environ['QT_QPA_PLATFORM']='offscreen'

@@ -5,7 +5,11 @@ $taskPDF=Join-Path $OutputDir 'native_render.pdf'
 $taskApp=$null;$taskDoc=$null;$taskInitialDocs=0
 $taskBefore=(Get-FileHash -LiteralPath $Docx -Algorithm SHA256).Hash
 try {
- $taskApp=[Runtime.InteropServices.Marshal]::GetActiveObject('Word.Application')
+ try {$taskApp=[Runtime.InteropServices.Marshal]::GetActiveObject('Word.Application')}
+ catch {
+  try {$taskApp=[Runtime.InteropServices.Marshal]::GetActiveObject('KWPS.Application')}
+  catch {$taskApp=New-Object -ComObject KWPS.Application}
+ }
  $taskInitialDocs=$taskApp.Documents.Count
  $taskOldAlerts=$taskApp.DisplayAlerts
  $taskOldSecurity=$taskApp.AutomationSecurity
@@ -15,7 +19,12 @@ try {
  $taskDoc.PrintRevisions=$false
  $taskDoc.Repaginate()
  $taskDoc.ExportAsFixedFormat($taskPDF,17,$false,0,0,1,9999,0,$true,$true,1,$true,$true,$false)
- $taskLog=[ordered]@{docx=$Docx;pdf=$taskPDF;pages=$taskDoc.ComputeStatistics(2);words=$taskDoc.ComputeStatistics(0);characters=$taskDoc.ComputeStatistics(3);tables=$taskDoc.Tables.Count;comments=$taskDoc.Comments.Count;native_equations=$taskDoc.OMaths.Count;engine=$taskApp.Name;engine_version=$taskApp.Version;engine_path=$taskApp.Path;read_only=$true;sha256=$taskBefore;existing_docs_count=$taskInitialDocs;status='NATIVE_RENDER_COMPLETE_PAGE_REVIEW_PENDING'}
+ $taskRefRange=$taskDoc.Content.Duplicate
+ $taskReferenceHeading=-join @([char]0x53C2,[char]0x8003,[char]0x6587,[char]0x732E)
+ $taskFoundRefs=$taskRefRange.Find.Execute($taskReferenceHeading)
+ $taskBodyWords=$null
+ if($taskFoundRefs){$taskBodyWords=$taskDoc.Range(0,$taskRefRange.Start).ComputeStatistics(0)}
+ $taskLog=[ordered]@{docx=$Docx;pdf=$taskPDF;pages=$taskDoc.ComputeStatistics(2);words=$taskDoc.ComputeStatistics(0);words_before_references=$taskBodyWords;characters=$taskDoc.ComputeStatistics(3);tables=$taskDoc.Tables.Count;comments=$taskDoc.Comments.Count;native_equations=$taskDoc.OMaths.Count;engine=$taskApp.Name;engine_version=$taskApp.Version;engine_path=$taskApp.Path;read_only=$true;sha256=$taskBefore;existing_docs_count=$taskInitialDocs;status='NATIVE_RENDER_COMPLETE_PAGE_REVIEW_PENDING'}
 } finally {
  if($null -ne $taskDoc){$taskDoc.Close(0);[void][Runtime.InteropServices.Marshal]::FinalReleaseComObject($taskDoc)}
  if($null -ne $taskApp){

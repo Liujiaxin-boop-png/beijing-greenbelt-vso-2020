@@ -24,6 +24,10 @@ RESULT = ROOT / "03_结果文件/indicators/ntl_by_grid.csv"
 RECEIPT = PROCESS / "ntl_aggregation_receipt.json"
 NAME = re.compile(r"^(VNL_v21_npp_2020_global_vcmslcfg_c[0-9]{12})\.(average_masked|cf_cvg)\.dat\.tif$")
 NATIVE_RESOLUTION_DEG = 15.0 / 3600.0
+# The authenticated, CRC-verified EOG c202205302300 original TIFFs encode the
+# nominal 15 arc-second size at ten decimal places. Recognize that observed
+# native encoding explicitly, while retaining its actual affine everywhere.
+EOG_NATIVE_ENCODED_RESOLUTION_DEG = 0.0041666667
 EDGE_SEGMENTS = 8
 
 
@@ -111,7 +115,9 @@ def check_rasters(a, c):
         raise ValueError("Expected original EOG WGS84 geographic grid.")
     if a.transform.b != 0 or a.transform.d != 0 or a.transform.a <= 0 or a.transform.e >= 0:
         raise ValueError("Expected the original unrotated north-up grid.")
-    if not np.allclose(a.res, [NATIVE_RESOLUTION_DEG] * 2, rtol=0, atol=1e-12):
+    exact_nominal = np.allclose(a.res, [NATIVE_RESOLUTION_DEG] * 2, rtol=0, atol=1e-12)
+    original_decimal_encoding = tuple(a.res) == (EOG_NATIVE_ENCODED_RESOLUTION_DEG,) * 2
+    if not (exact_nominal or original_decimal_encoding):
         raise ValueError("Input is not the original 15 arc-second product.")
     if any(x.scales[0] != 1 or x.offsets[0] != 0 for x in [a, c]):
         raise ValueError("Unexpected scale/offset: verify original product encoding rather than silently converting.")

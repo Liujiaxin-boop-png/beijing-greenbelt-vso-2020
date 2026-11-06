@@ -79,6 +79,12 @@ def main():
         bs=baseline[baseline.habitat==habitat][['grid_id','ER','ER_class','V_score','S_score','O_score','limiting_dimension']]
         rr=rr.merge(bs,on='grid_id',how='left',validate='one_to_one').merge(stable[stable.habitat==habitat].drop(columns='habitat'),on='grid_id',how='left',validate='one_to_one')
         layer=geom.merge(rr,left_on='Grid_ID',right_on='grid_id',how='left',validate='one_to_one')
+        # GeoPackage field names are case-insensitive. Preserve one canonical
+        # field only after proving both merged copies contain identical data.
+        assert layer['Grid_ID'].eq(layer['grid_id']).all(), 'Geometry and result grid IDs differ'
+        assert layer['Scale_m'].eq(layer['scale_m']).all(), 'Geometry and result grid scales differ'
+        layer=layer.drop(columns=['Grid_ID','Scale_m'])
+        assert len({str(c).casefold() for c in layer.columns})==len(layer.columns), 'Case-insensitive duplicate GPKG fields remain'
         layer['map_class']=layer.ER_class.fillna(0).astype(int)
         # Explicit integer flags avoid driver-specific serialization of
         # nullable Python booleans as the strings "True"/"False" in QGIS.

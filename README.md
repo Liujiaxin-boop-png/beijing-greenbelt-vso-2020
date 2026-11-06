@@ -5,8 +5,11 @@
 
 ## 执行状态
 
-正在执行。已完成原生 HQ、CLUMPY、MSPA、欧氏距离、灰绿配置及热环境分析；15 个 MCR 情景、181 组原生计算全部完成，9 组源地阈值单调性检查通过，结果已按哈希核验后归档。MCR 格网汇总为 172185 条记录，六指标基础表为 68874 条记录。真实 EOG 2020 年度亮度与原始有效观测次数尚未取得，基础表保留 NTL 缺失，综合指数因此尚未计算。
-尚未生成或声称完成新的六指标综合评价结果。旧仓库中的抵抗力—恢复力—适应力结果不属于本次分析。
+截至 2026 年 11 月 6 日，六项指标、基准与预设对照的综合评价、乡镇报表已完成，`02_过程文件/evaluation/final_scientific_QA.json` 为 `PASS`。该验收独立复算了数值、分级、对照有效域和面积统计；生态过程的外部验证属于另一个证据层面。
+
+原生 HQ、CLUMPY、MSPA、欧氏距离、灰绿配置及热环境分析均有运行记录。15 个 MCR 情景、181 组原生计算完成，9 组源地阈值单调性检查通过，MCR 格网汇总为 172185 条记录。EOG 官方 2020 同批次亮度与观测次数原件已归档，夜光汇总为 11479 个完整格网，并通过独立原件抽样审计。六指标基础表为 68874 条记录；1 km 基准方案中林灌、草地、水体湿地分别有 840、153、532 个共同有效格网，这些生境评价域可能重叠。
+
+最终分级由 `jenkspy 0.4.1` 执行精确 Fisher–Jenks 优化，使用全部有效基准值、不抽样；各对照沿用所属生境的基准断点。QGIS 读取冻结分级制作可编辑地图。六幅正文图及补充图 S1 已原生导出；结果地图的14个图层、3个布局及默认画布已经重开核验。中文论文已完成，原生 WPS 渲染17页，参考文献之前7686字词，含3张表、6幅图、6个可编辑公式、32条参考文献；207项文字数值核对和17页目视审查通过。记录位于本地 `02_过程文件/manuscript/final_delivery_QA.json`、`final_numeric_text_QA.json` 和 `02_过程文件/map_results/visual_QA.json`。这些是文件、数值与版式验收，不是生态过程的外部验证或录用证明。旧仓库的抵抗力—恢复力—适应力结果不属于本次分析。
 
 ## 方法与目录
 
@@ -53,13 +56,15 @@ python .\setup_local_paths.py --create
 | CLCD 主方案土地覆盖 | `CLCD2020/CLCD_v01_2020_albert.tif`；Zenodo 8176941，记录版本 1.0.2 | [原始发布记录](https://zenodo.org/records/8176941)。发布方 MD5 为 `1274285bb18f9b1d443a3cc906b1310c`；文件名 `v01` 不是记录版本号。 |
 | CLCD 原生背景窗口 | `CLCD2020/CLCD_2020_v102_native_background17km.tif` | 从上述完整原件无损取原生窗口，不重采样。当前代码保留历史无损窗口而未自动从全国文件生成；新机器需按原始窗口元数据提取，见下文。 |
 | WorldCover 数据源对照 | `WorldCover2020官方整幅/ESA_WorldCover_10m_2020_v100_N39E114_Map.tif` 及 `N39E117` 同名瓦片 | [官方数据入口](https://esa-worldcover.org/en/data-access)，2020 v100，CC BY 4.0；先拼接原生瓦片再以众数重采样，勿直接使用 2021 产品。 |
-| 道路，HQ 胁迫及 MCR 道路阻力 | `OSM2020原始道路成员/gis_osm_roads_free_1.shp` 及配套文件，含 `fclass` | [Geofabrik 2020-01-01 原始压缩包](https://download.geofabrik.de/asia/china-200101-free.shp.zip)。这是年初快照，不能写成年末道路普查。 |
-| 年度夜间灯光 | 同一 `VNL_v21_npp_2020_global_vcmslcfg_cYYYYMMDDHHMM` 发布批次的 `.average_masked.dat.tif` 和 `.cf_cvg.dat.tif` | [EOG 官方产品](https://eogdata.mines.edu/products/vnl/)。保留官方压缩原件、解压文件及不含认证信息的来源 URL。原始亮度和观测次数必须齐全；不得用虚拟值或另一年份代替。 |
+| 道路，HQ 胁迫及 MCR 道路阻力 | `OSM2020原始道路成员/gis_osm_roads_free_1.shp` 及配套文件，含 `fclass` | [Geofabrik 2020-01-01 原始压缩包](https://download.geofabrik.de/asia/china-200101-free.shp.zip)。沿用压缩包文件日期，精确 UTC 截止时刻未提供；保留道路成员和校验记录，不能写成年末道路普查。 |
+| 年度夜间灯光 | `EOG2020官方原件/` 中批次 `VNL_v21_npp_2020_global_vcmslcfg_c202205302300` 的 `.average_masked.dat.tif`、`.cf_cvg.dat.tif` 及各自 `.gz` 原件 | [EOG 官方 2020 v2.1 目录](https://eogdata.mines.edu/nighttime_light/annual/v21/2020/)。来源与完整性核验 JSON 保留精确 URL、gzip CRC、原件大小和 SHA-256；两份原始产品必须配对使用。 |
 | 地表温度补充检验 | `Landsat8_2020已有原生窗口/<场景ID>/` 的 ST_B10 DN、QA_PIXEL、QA_RADSAT、MTL；`Landsat8_2020补充质量层/<场景ID>/` 的 ST_QA、ST_EMIS 与 STAC | Landsat 8 Collection 2 Level 2 原生窗口；主景 `LC08_L2SP_123032_20200803_02_T1`，另两景 `LC08_L2SP_123032_20200616_02_T1`、`LC08_L2SP_124032_20200810_02_T1` 分别对照，不合成为年均温。 |
 
 CLCD 背景窗口的固定定义：行数 4071，列数 4033，原生 Albers CRS 沿用完整文件，仿射变换前六项为 `[30, 0, 896665.2169543286, 0, -30, 4407871.5596752735]`。窗口 SHA-256 为 `a4a8b5f3dcdd123d187393edda2e61e4203334a48c327650d28f5c85b1cc8a4e`。重新编码 GeoTIFF 可能改变文件哈希；此时须同时核对 CRS、变换、像元形状、有效掩膜及全部像元值，不能仅以文件名一致判定同一输入。
 
 NASADEM 为地形背景资料，主要观测来自 2000 年 SRTM；不进入本轮六项指标或 MCR 阻力。完整期刊 PDF、早期实验目录、社会韧性数据也不是六指标计算输入。
+
+本批次 EOG 原件均为 WGS84、33601 × 86401 像元，文件头将名义 15 角秒编码为 `0.0041666667°`，两份原件的完整仿射参数相同且 `NoData=None`。计算保留该原始仿射参数，以原生像元投影轮廓与完整方格的相交面积加权，不重采样。有效观测要求两产品掩膜有效、数值有限且 `cf_cvg>0`；观测次数仅用于质量判断和描述，不能作为亮度权重。年度 `average_masked` 产品中满足该条件的零值保留；背景处理后的零值不能解释为绝对无人为活动。主 NTL 要求完整方格均有有效观测，部分覆盖均值另列。
 
 `src/acquisition/` 保存本轮下载/归档辅助脚本，路径已按当前子目录位置修正。其中 `219_inventory_stage.py` 是原工作区到新成果目录的历史搬运程序，依赖既有 `生态韧性新研究`、`GIS数据`、`2020年论文成果`，不是新机器通用下载器；没有这些历史目录时不要运行。`219_finalize_data_audit.py` 含采集时的软件状态记录，不是当前软件验收程序。当前下载辅助脚本不能独自重建所有 Landsat 原生窗口，须保留场景和窗口元数据。
 
@@ -67,12 +72,12 @@ NASADEM 为地形背景资料，主要观测来自 2000 年 SRTM；不进入本�
 
 | 环境 | 本轮版本及用途 | 准备要求 |
 | --- | --- | --- |
-| 普通 Python | 3.12；numpy、pandas、scipy、rasterio、geopandas、shapely >= 2、pyproj、requests | 与 ArcGIS/QGIS 自带 Python 分开。`requirements-analysis.txt` 固定本轮普通 Python 的直接分析依赖版本（不涵盖 Pro/QGIS 私有环境）；先检查依赖和小型数值核验，不能将普通 Python 的包安装命令直接施加到 GIS 自带环境。 |
+| 普通 Python | 3.12；numpy、pandas、scipy、rasterio、geopandas、shapely >= 2、pyproj、requests；分类使用 `jenkspy==0.4.1` | 与 ArcGIS/QGIS 自带 Python 分开。按 `requirements-analysis.txt` 准备分析依赖，并确认 `jenkspy 0.4.1` 已安装；依赖清单不涵盖 Pro/QGIS 私有环境。先检查依赖和小型数值核验，不能将普通 Python 的包安装命令直接施加到 GIS 自带环境。 |
 | ArcGIS Pro | 3.1.6，Spatial Analyst；Fishnet、Cost Distance、Euclidean Distance | 须合法安装并具备相应许可；使用 Pro 的 `propy.bat`，不是普通 Python。开题记录中的 ArcMap 10.8 是原计划，当前原生运行版本以 Pro 回执为准。 |
 | InVEST | 3.20.2，原生 Habitat Quality | 默认入口 `D:\Apps\InVEST-3.20.2\invest.exe`。`acquire_invest.py` 只校验下载官方安装包，并不完成安装。 |
 | FRAGSTATS | 4.2.1.612，原生 class CLUMPY | 同时需要完整便携程序目录和官方 Tutorial_3 的 `fragmodel.fca`，详见下文；不是只复制一个 EXE。 |
 | JRC MSPA | 2.4 October 2026，原生 Win64 | 放置 `01_原始数据/软件原始安装包/JRC_MSPA_2_4/mspa_win64.exe`。原始文档及源代码副本可选归档，不是执行的必要输入。 |
-| QGIS | 3.28.2 Firenze；原生分级、可编辑工程及地图 | 默认 `F:\Program Files\QGIS 3.28.2`；`gdalbuildvrt.exe` 固定于该安装目录。地图使用 Windows 微软雅黑字体。 |
+| QGIS | 3.28.2 Firenze；按冻结分级赋色、可编辑工程及地图导出 | 默认 `F:\Program Files\QGIS 3.28.2`；`gdalbuildvrt.exe` 固定于该安装目录。地图使用 Windows 微软雅黑字体。 |
 
 FRAGSTATS 使用[作者仓库固定提交](https://github.com/kmcgarigal/Fragstats/tree/91b03d143c4acc0e42304d2961253340720604a2)中的 `fragstats64.zip` 和 `Tutorial.zip`。解压后需满足：
 
@@ -96,16 +101,16 @@ FRAGSTATS 使用[作者仓库固定提交](https://github.com/kmcgarigal/Fragsta
 
 该文件目前只覆盖三个 Python 入口，不覆盖固定的 InVEST、GDAL 或 D 盘联接路径。若安装目录不同，须对这些入口作路径适配并再次核验；不得把修改软件路径误作已经验证计算等价性。
 
-夜间灯光输入配置放在 `02_过程文件/aggregation/ntl_inputs.json`。以下仅是结构样例，必须换成实际同批次原件及官方 URL，核验后再将布尔值改为 `true`：
+夜间灯光输入配置放在 `02_过程文件/aggregation/ntl_inputs.json`。以下采用本轮真实批次和文件名示范；复现者仍须取得这两份原件、核对路径与完整性后，再将布尔值改为 `true`：
 
 ```json
 {
   "official_source_files_verified": false,
-  "release_prefix": "VNL_v21_npp_2020_global_vcmslcfg_cYYYYMMDDHHMM",
-  "average_masked_tif": "01_原始数据/实际目录/实际原始文件.average_masked.dat.tif",
-  "cf_cvg_tif": "01_原始数据/实际目录/实际原始文件.cf_cvg.dat.tif",
-  "average_masked_source_url": "https://eogdata.mines.edu/nighttime_light/annual/v21/2020/实际原始文件.average_masked.dat.tif.gz",
-  "cf_cvg_source_url": "https://eogdata.mines.edu/nighttime_light/annual/v21/2020/实际原始文件.cf_cvg.dat.tif.gz"
+  "release_prefix": "VNL_v21_npp_2020_global_vcmslcfg_c202205302300",
+  "average_masked_tif": "01_原始数据/EOG2020官方原件/VNL_v21_npp_2020_global_vcmslcfg_c202205302300.average_masked.dat.tif",
+  "cf_cvg_tif": "01_原始数据/EOG2020官方原件/VNL_v21_npp_2020_global_vcmslcfg_c202205302300.cf_cvg.dat.tif",
+  "average_masked_source_url": "https://eogdata.mines.edu/nighttime_light/annual/v21/2020/VNL_v21_npp_2020_global_vcmslcfg_c202205302300.average_masked.dat.tif.gz",
+  "cf_cvg_source_url": "https://eogdata.mines.edu/nighttime_light/annual/v21/2020/VNL_v21_npp_2020_global_vcmslcfg_c202205302300.cf_cvg.dat.tif.gz"
 }
 ```
 
@@ -124,11 +129,15 @@ FRAGSTATS 使用[作者仓库固定提交](https://github.com/kmcgarigal/Fragsta
 | `--stage ntl` | spatial、真实 EOG 同批次文件与输入配置 | 原生像元面积加权 NTL；数据缺失时停止，不生成占位指标 |
 | `--stage aggregate` | hq、euclidean、clumpy、mcr、ntl | 单项汇总、三类生境六项记录、有效域状态；部分单项可先独立汇总，完整入口需全部齐备 |
 | `--stage arithmetic_qa` | aggregate 生成的格网基础 | 标准化、去项、格网汇回等数学/面积守恒检查；不是生态过程验证 |
-| `--stage evaluate` | 六项共同有效记录及核验通过 | 统一参考范围、熵权、固定五级 Jenks、成对敏感性和乡镇有效范围统计 |
+| `--stage evaluate` | 六项共同有效记录及核验通过、`jenkspy 0.4.1` | 依次运行 `evaluate_resilience.py`、`classify_scores.py`、`summarize_evaluation.py`：统一参考范围、熵权、精确五级 Fisher–Jenks、成对敏感性和乡镇有效范围统计 |
 | `--stage context_maps` | spatial 及所需背景图层 | 可编辑 QGIS 研究区/技术路线工程，原生导出与重开核验 |
 | `--stage result_maps` | evaluate 全部完成 | 实际综合指数、短板与分级稳定性图；另需原生重开和目视审阅 |
 | `--stage final_qa` | 全部真实评分、分级与乡镇报表 | 独立标量/分组复算、最优分级目标和空间支持检查；缺数据返回 BLOCKED |
 | `--stage manifest` | 当前各阶段回执 | 更新本地 project.yaml 和阶段快照；不会把缺失数据标成完成 |
+
+夜光生产汇总完成后，使用普通 Python 执行 `src/agent_ntl_independent_qa.py`，从配对原件独立复算真实格网，并核对原件归档记录、零值、覆盖和投影边界加密收敛。本轮该审计为 PASS：27 个真实格网、270 项字段核对通过。最终综合验收仍需执行 `--stage final_qa`；单个指标通过不能代替全流程验收。
+
+分级方法保持自然断点法：`classify_scores.py` 在每类生境的全部基准有效格网上以 `jenkspy 0.4.1` 优化类内平方和，比较方案沿用同组基准断点。`verify_final_analysis.py` 另用独立动态规划核对目标函数和分级；QGIS 负责按冻结分类制图。先前 QGIS 分级实现的诊断记录作为历史过程保留，最终结果依据 `03_结果文件/evaluation/classification.json` 指定的实现。
 
 热环境补充分析可用 `--stage thermal` 和 `--stage thermal_figure` 执行；对应的独立脚本顺序为：普通 Python 执行 `src/agent_thermal_prepare.py`、`src/agent_thermal_validate.py`；在 HQ/欧氏距离和 `aggregate_basics.py` 已完成后执行 `src/agent_thermal_association.py`、`src/agent_thermal_association_validate.py`；再用 QGIS Python 执行 `src/agent_thermal_qgis_figure6.py` 与 `src/agent_thermal_qgis_figure6_validate.py`，实际逐图审阅通过后，普通 Python 执行 `src/agent_thermal_figure6_finalize.py` 固定本轮交付记录；新运行不能未经目视审阅直接沿用 PASS。热环境是灰绿配置补充分析，不用虚构 NTL 或未完成的综合指数填充。
 
@@ -147,8 +156,8 @@ FRAGSTATS 使用[作者仓库固定提交](https://github.com/kmcgarigal/Fragsta
 
 ## 论文与补充图
 
-`prepare_manuscript_content.py` 仅整理过程目录中的已核验引言、方法及真实热环境段落，不生成完整论文。`build_manuscript.py` 要求内容标记为 READY_FOR_LAYOUT、真实六指标数值验收为 PASS，才可创建新的匿名 Word 文件；原生 Office 渲染与逐页审阅仍须另行完成。文档环境使用 `requirements-manuscript.txt`，与分析/GIS 环境分开。
+`prepare_manuscript_content.py` 整理已核验的引言和方法基础；`complete_manuscript_content.py` 从真实结果表读取数值并形成全文，保留修改前基础文本。`build_manuscript.py` 要求内容标记为 READY_FOR_LAYOUT、真实六指标数值验收为 PASS，才创建新的匿名 Word。文档环境使用 `requirements-manuscript.txt`，与分析/GIS 环境分开。`verify_document_delivery.py` 核对原生渲染、逐页观察记录、数值审计、OMML公式及嵌入图像与最终导出件的一致性；不以生成文件替代实际审阅。`package_submission.py` 将已验收稿、正文图和参数附表复制到本地投稿文件目录并检查哈希，不执行投稿。
 
-`build_methods_preview.py` 只在过程目录生成明确标记的引言与方法排版校样。当前校样经本机 WPS 原生只读打开和 PDF 渲染，共 9 页、6 个可编辑公式，已逐页检查；它不包含综合评价结果和结论，不能当作已完成论文。图 1、图 2 和图 6 已在 QGIS 原生布局中优化字体，并独立重开后检查。`render_docx_native.ps1` 保留用户已有窗口，不保存或关闭原文档；`render_docx_pages.py` 使用已有原生 PDF 为页图转换提供输入。
+`build_methods_preview.py` 的9页引言与方法校样作为早期过程记录保留；正式17页全文另存于 `03_结果文件/论文`，不能将二者混用。图1—6已按正文展示宽度核查可读性。`render_docx_native.ps1` 通过 Word/WPS COM 原生只读渲染，仅关闭自己打开的副本，不保存或关闭用户原文档；`render_docx_pages.py` 使用该原生 PDF 为页图转换提供输入。
 
 补充图 S1 的独立链为普通 Python 的 `agent_s1_prepare.py`，QGIS Python 的 `agent_s1_qgis_map.py`、`agent_s1_qgis_validate.py`；它展示 HQ、CLUMPY、SSI 与 E/(E+C) 原始值，不能当作六指标综合评价图。任何命名为 finalize 的交付脚本都须在实际目视审阅后运行，不能用脚本名称代替审阅。

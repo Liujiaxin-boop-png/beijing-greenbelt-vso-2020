@@ -41,7 +41,7 @@ def main():
         summary.append({'folder':folder,'files':n,'bytes':total})
     proposal=ROOT/'01_原始数据/研究依据/北京二道绿隔生态韧性评价_开题报告_组会汇报清稿_20261106.docx'
     assert sha(proposal)=='e31da3054ae9c7e95d705a9e92718704c9ca5b92ce13ba5059d03f8143519db7'
-    report={'status':'INVENTORY_SNAPSHOT_ONLY','at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'files':rows,'summary':summary,'read_errors':errors,'approved_proposal_unchanged':True,'completion_note':'Active MCR stages and absent EOG inputs must be checked in their own receipts. A file inventory is not a scientific-completion certificate.'}
+    report={'status':'INVENTORY_SNAPSHOT_ONLY','at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'files':rows,'summary':summary,'read_errors':errors,'approved_proposal_unchanged':True,'completion_note':'Current per-stage receipts and final delivery QA determine completion. This inventory verifies retained files, not ecological validity or manuscript acceptance.'}
     previous.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
     with (WORK/'file_inventory.csv').open('w',encoding='utf-8-sig',newline='') as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)

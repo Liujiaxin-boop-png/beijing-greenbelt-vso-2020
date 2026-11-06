@@ -43,6 +43,16 @@ def main():
     sources['roads']={'role':'authoritative_input','provider':'OpenStreetMap contributors','dataset':'2020-01-01 China snapshot road members','source_url':'https://www.openstreetmap.org/copyright','version':{'identifier':'2020-01-01'},'access':{'method':'local retained snapshot','path':'01_原始数据/OSM2020原始道路成员','audit_record':'02_过程文件/数据审计/219_existing_inputs_inventory.json'},'selection':{'filter':'motorway,trunk,primary,motorway_link,trunk_link,primary_link'},'license':{'name':'Open Database License','url':'https://www.openstreetmap.org/copyright'},'rationale':'Dated major-road pressure input; not present-day OSM.'}
     ntl=read('02_过程文件/aggregation/ntl_aggregation_receipt.json')
     sources['ntl']={'role':'authoritative_input','provider':'Earth Observation Group','dataset':'VIIRS annual VNL v2.1 2020 average_masked and original cf_cvg','source_url':'https://eogdata.mines.edu/nighttime_light/annual/v21/2020/','version':{'identifier':'VNL_v21_npp_2020_global_vcmslcfg_c202205302300'},'access':{'method':'official authenticated website download','status':(ntl or {}).get('status','MISSING'),'audit_record':'02_过程文件/aggregation/ntl_aggregation_receipt.json'},'rationale':'Approved independent night-activity pressure; missing brightness is never replaced with zeros, proxies or a different release.'}
+    original_ntl=read('01_原始数据/EOG2020官方原件/来源与完整性核验.json')
+    if original_ntl:
+        originals=[]
+        for record in original_ntl['files']:
+            stem=Path(record['download_file']).name[:-3]
+            for kind,suffix in [('gzip','.gz'),('tif','')]:
+                originals.append({'file':'01_原始数据/EOG2020官方原件/'+stem+suffix,'bytes':record[kind+'_bytes'],'sha256':record[kind+'_sha256'],'source_url':record['source_url']})
+        sources['ntl']['access']['files']=originals
+        sources['ntl']['access']['independent_qa']='02_过程文件/aggregation/ntl_independent_QA.json'
+        sources['ntl']['access']['original_manifest']='01_原始数据/EOG2020官方原件/来源与完整性核验.json'
     queue=read('02_过程文件/mcr_queue/queue_checkpoint.json') or {}
     status_files={
       'hq':'02_过程文件/hq/native_hq_execution.json',
@@ -50,7 +60,11 @@ def main():
       'mcr_finalization':'02_过程文件/mcr_queue/finalization_status.json',
       'ntl':'02_过程文件/aggregation/ntl_aggregation_receipt.json',
       'arithmetic':'02_过程文件/evaluation/arithmetic_validation.json',
-      'context_projects':'02_过程文件/map_inputs/context_project_native_QA.json'}
+      'context_projects':'02_过程文件/map_inputs/context_project_native_QA.json',
+      'scientific':'02_过程文件/evaluation/final_scientific_QA.json',
+      'result_maps':'02_过程文件/map_results/visual_QA.json',
+      'word':'02_过程文件/manuscript/final_delivery_QA.json',
+      'delivery':'02_过程文件/delivery/final_delivery_receipt.json'}
     evidence={key:{'path':p,'exists':(ROOT/p).exists(),'sha256':digest(ROOT/p) if (ROOT/p).exists() else None} for key,p in status_files.items()}
     inputs_hash=hashlib.sha256(json.dumps({k:v['access'] for k,v in sources.items()},sort_keys=True,ensure_ascii=False).encode()).hexdigest()
     outputs_hash=hashlib.sha256(json.dumps(evidence,sort_keys=True).encode()).hexdigest()
@@ -67,7 +81,21 @@ def main():
       'presentation':{'native_projects':['04_图件/生态韧性2020_可编辑地图.qgz','04_图件/技术路线_可编辑布局.qgz'],'palette':'05_代码/config/palette.json','reporting':'Chinese manuscript and editable local GIS layouts; no additional web dashboard requested.'},
       'runtime':{'implementation':{'pipeline':'05_代码/pipeline.py'},'software':['ArcGIS Pro 3.1.6 Spatial Analyst','InVEST 3.20.2','FRAGSTATS 4.2.1.612','JRC MSPA 2.4','QGIS 3.28.2','Python 3.12']},
       'runs':{'latest':{'id':report['run_id'],'started_at':now.isoformat(),'completed_at':now.isoformat(),'status':'warning','inputs_hash':inputs_hash,'outputs_hash':outputs_hash,'validation_report':report_path}}}
+    final=read(status_files['delivery']) or {}
+    finished=final.get('status')=='PASS_FINAL_DELIVERY'
+    manifest['project']['status']='complete' if finished else 'in_progress'
+    manifest['outputs']['status']='Verified local manuscript, scientific outputs, editable figures and published code.' if finished else 'Inspect current stage receipts; final delivery is not yet certified.'
+    manifest['processing']['steps']=[{'id':s,'entrypoint':'05_代码/pipeline.py --stage '+s} for s in ['spatial','hq','euclidean','clumpy','mspa','mcr','ntl','aggregate','arithmetic_qa','evaluate','final_qa','context_maps','result_maps','thermal','thermal_figure']]
+    manifest['presentation']['native_projects']=[str(p.relative_to(ROOT)).replace('\\','/') for p in (ROOT/'04_图件').glob('*.qgz')]
+    manifest['runtime']['software'].append('jenkspy 0.4.1 exact Fisher-Jenks classification')
+    manifest['sources']['roads']['source_url']='https://download.geofabrik.de/asia/china-200101-free.shp.zip'
+    manifest['sources']['roads']['version']['precision']='Archive filename date; exact snapshot UTC cutoff unavailable.'
+    manifest['runs']['latest']['status']='success' if finished else 'warning'
+    report['status']='success' if finished else 'warning'
+    report['type']='verified_final_delivery_inventory' if finished else 'current_execution_inventory'
+    report['note']='Completion requires the independently retained final delivery receipt; this source manifest does not assert ecological process validation or publication acceptance.'
+    dump(ROOT/report_path,report)
     dump(ROOT/'project.yaml',manifest)
-    print(json.dumps({'manifest':str(ROOT/'project.yaml'),'status':'IN_PROGRESS','mcr_completed':report['mcr_completed'],'ntl':report['ntl_status']},ensure_ascii=False))
+    print(json.dumps({'manifest':str(ROOT/'project.yaml'),'status':'COMPLETE' if finished else 'IN_PROGRESS','mcr_completed':report['mcr_completed'],'ntl':report['ntl_status']},ensure_ascii=False))
 
 if __name__=='__main__':main()
