@@ -1,0 +1,90 @@
+{
+  "version": "20261106",
+  "font_family": "SimHei",
+  "font_name_cn": "黑体",
+  "canvas_width_mm": 190,
+  "text_color": "#1F2528",
+  "sizes_pt": {
+    "figure_title": 16,
+    "panel_title": 13,
+    "legend_title": 11.5,
+    "map_label": 11,
+    "legend_label": 11,
+    "axis_title": 11.5,
+    "axis_tick": 10.5,
+    "note": 10
+  },
+  "frame": {
+    "color": "#3A4043",
+    "width_mm": 0.22,
+    "map_panel": true,
+    "overall_neatline": true
+  },
+  "palette": {
+    "theme": "muted ecological map; categorical landcover; ordered score light-to-dark teal",
+    "landcover": {
+      "1": [
+        "耕地",
+        "#D8CBA3"
+      ],
+      "2": [
+        "林地",
+        "#527F71"
+      ],
+      "3": [
+        "灌丛",
+        "#91AB85"
+      ],
+      "4": [
+        "草地",
+        "#C7D7AA"
+      ],
+      "5": [
+        "水体",
+        "#649DB4"
+      ],
+      "7": [
+        "裸地",
+        "#CECBC4"
+      ],
+      "8": [
+        "不透水面",
+        "#A6A2A0"
+      ],
+      "9": [
+        "湿地",
+        "#8ABFC1"
+      ]
+    },
+    "sequential": [
+      "#EFF6F4",
+      "#C9DFD8",
+      "#96C0B5",
+      "#5D968A",
+      "#2C6E62"
+    ],
+    "negative_difference": "#B97846",
+    "positive_difference": "#427D8C",
+    "missing": "#ECECEC",
+    "note": "All maps use one palette; absent/not-applicable kept distinct from numerical zero. Class colour is not quality rank."
+  },
+  "dimension_colors": {
+    "V": "#4F7F73",
+    "S": "#547F98",
+    "O": "#B78A5A"
+  },
+  "export_dpi": 600,
+  "formats": [
+    "png",
+    "pdf",
+    "svg"
+  ],
+  "word_display_width_mm": 146.4,
+  "notes": [
+    "Use true linked scale bars and grid north with projection explained; no fake geographic grid.",
+    "No common ranking across habitat types; missing/excluded separate from low.",
+    "Panels use original scores/thresholds; do not fit new scientific classifications.",
+    "If map scores 0..1, continuous ramps allowed as visualization only; preserve approved discrete ER classes.",
+    "Every native QGIS project must open with relative paths and final default view."
+  ]
+}
