@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 WORK=ROOT/'02_过程文件'
 GIT=Path('C:/Program Files/Git/cmd/git.exe')
 
-def read(path):return json.loads((ROOT/path).read_text(encoding='utf8-sig'))
+def read(path):return json.loads((ROOT/path).read_text(encoding='utf-8-sig'))
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def save(path,value):
     path.parent.mkdir(parents=True,exist_ok=True)
